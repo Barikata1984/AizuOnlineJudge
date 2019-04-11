@@ -1,0 +1,1 @@
+#include <iostream>#include <map>#include <vector>#include <algorithm>int main(){    int n;    std::cin >> n;    std::vector<int> a(n);    dor(int i = 0; i < n; ++i){        std::cin >> a.at(i);    }    std::string s;    std::cin >> s;        std::cout << "" << std::endl;    return 0;}
