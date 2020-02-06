@@ -1,39 +1,64 @@
 #include <iostream>
 #include <vector>
 
-int main(){
-    std::vector<int> dice(6);
-    for(int i = 0; i < 6; ++i){
-        std::cin >> dice.at(i);
-    }
+class Dice{
+private:
+    std::vector<int> surfaces;
 
-    char key;
-    while(std::cin >> key){
-        switch(key){
-            case 'N':
-                std::swap(dice.at(0), dice.at(1));
-                std::swap(dice.at(1), dice.at(5));
-                std::swap(dice.at(5), dice.at(4));
-                break;
-            case 'E':
-                std::swap(dice.at(0), dice.at(3));
-                std::swap(dice.at(3), dice.at(5));
-                std::swap(dice.at(5), dice.at(2));
-                break;
-            case 'W':
-                std::swap(dice.at(0), dice.at(2));
-                std::swap(dice.at(2), dice.at(5));
-                std::swap(dice.at(5), dice.at(3));
-                break;
-            case 'S':
-                std::swap(dice.at(0), dice.at(4));
-                std::swap(dice.at(4), dice.at(5));
-                std::swap(dice.at(5), dice.at(1));
-                break;
+public:
+    Dice(std::vector<int> readVec){
+        int sz = readVec.size();
+        for(int i = 0; i < sz; ++i){
+            surfaces.push_back(readVec.at(i));
         }
     }
 
-    std::cout << dice.at(0) << std::endl;
+    void roll(int readVal){
+        int i, j;
+        switch(readVal){
+            case 78:
+                i = 1; j = 4;
+                break;
+            case 87:
+                i = 2; j = 3;
+                break;
+            case 69:
+                i = 3; j = 2;
+                break;
+            case 83:
+                i = 4; j = 1;
+                break;
+        }
+
+        int buf = surfaces.at(0);
+        surfaces.at(0) = surfaces.at(i);
+        surfaces.at(i) = surfaces.at(5);
+        surfaces.at(5) = surfaces.at(j);
+        surfaces.at(j) = buf;
+    }
+
+    void top(){
+        std::cout << surfaces.at(0) << std::endl;
+    }
+};
+
+int main(){
+    std::vector<int> vec(6);
+    for(int i = 0; i < 6; ++i){
+        std::cin >> vec.at(i);
+    }
+
+    Dice dice(vec);
+
+    std::string cmd;
+    std::cin >> cmd;
+
+    int sz = cmd.size();
+    for(int i = 0; i < sz; ++i){
+        dice.roll(cmd.at(i));
+    }
+
+    dice.top();
 
     return 0;
 }
