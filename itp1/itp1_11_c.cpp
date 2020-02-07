@@ -48,28 +48,52 @@ public:
         }
     }
 
-    void show(int i){
-        std::cout << faces.at(i) << std::endl;
+    int number(int i){
+        return faces.at(i);
     }
 };
 
 int main(){
-    std::vector<int> vec(6);
+    std::vector<int> vec1(6);
     for(int i = 0; i < 6; ++i){
-        std::cin >> vec.at(i);
+        std::cin >> vec1.at(i);
     }
 
-    Dice dice(vec);
-
-    std::string cmd;
-    std::cin >> cmd;
-
-    int sz = cmd.size();
-    for(int i = 0; i < sz; ++i){
-        dice.roll(cmd.at(i));
+    std::vector<int> vec2(6);
+    for(int i = 0; i < 6; ++i){
+        std::cin >> vec2.at(i);
     }
 
-    dice.show(TOP); // TOP, FRONT, RIGHT, LEFT, REAR, or BOTTOM
+    Dice dice1(vec1), dice2(vec2);
+
+    if(dice1.number(TOP) == dice2.number(LEFT)){
+        dice2.roll('E');
+    }else if(dice1.number(TOP) == dice2.number(RIGHT)){
+        dice2.roll('W');
+    }
+
+    bool flg1 = false;
+    int i = 0;
+    while(!flg1 && i < 4){
+        dice2.roll('N');
+        flg1 = dice1.number(TOP) == dice2.number(TOP);
+        ++i;
+    }
+
+    bool flg2 = false;
+    int j = 0;
+    while(!flg2 && j < 4){
+        dice2.roll('R');
+        flg2 = dice1.number(FRONT) == dice2.number(FRONT);
+        ++j;
+    }
+
+    std::string ans = "No";
+    if(flg1 && flg2 && dice1.number(RIGHT) == dice2.number(RIGHT)){
+        ans = "Yes";
+    }
+
+    std::cout << ans << std::endl;
 
     return 0;
 }
