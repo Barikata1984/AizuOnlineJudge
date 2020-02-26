@@ -1,1 +1,18 @@
-#include <iostream>#include <vector>void showVector(std::vector<int> readVec){    int length = readVec.size();    for(int i = 0; i < length; ++i){        if(length - 1 != i){            std::cout << readVec.at(i) << " ";        }else{            std::cout << readVec.at(i);        }    }        std::cout << std::endl;}int main(){    int n;    std::cin >> n;    std::vector<int> a(n);    for(int i = 0; i < n; ++i){        std::cin >> a.at(i);    }    bool flg = true;    int i = 0;    int j, tmp;    int count = 0;    while(flg){        flg = 0;        for(j = n - 1; i < j; --j){            if(a.at(j) < a.at(j - 1)){                a.at(j) += a.at(j - 1);                a.at(j - 1) = a.at(j) - a.at(j - 1);                a.at(j) = a.at(j) - a.at(j - 1);                flg = true;                ++count;            }        }    }        showVector(a);        std::cout << count << std::endl;    return 0;}
+#include <iostream>
+
+int gcd(int readVal1, int readVal2){
+    if(0 == readVal1 % readVal2){
+        return readVal2;
+    }else{
+        return gcd(readVal2, readVal1 % readVal2);
+    }
+}
+
+int main(){
+    int x, y;
+    std::cin >> x >> y;
+
+    std::cout << gcd(x, y) << std::endl;
+
+    return 0;
+}
