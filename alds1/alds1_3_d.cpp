@@ -1,52 +1,57 @@
-#include <numeric>
+#include <algorithm>
 #include <iostream>
+#include <numeric>
+#include <unordered_map>
 #include <vector>
+
+void print(std::unordered_map<int, int> readUmp){
+    int n = readUmp.size();
+    auto itr = readUmp.begin();
+    for(int i = 0; i < n; ++i){
+        std::cout << itr->second;
+        if(n - 1 != i){
+            std::cout << " ";
+        }else{
+            std::cout << std::endl;
+        }
+        ++itr;
+    }
+}
 
 int main(){
     std::string str;
     std::cin >> str;
 
-    int n = str.size(), depth = 0, subArea = 0;
-    std::vector<int> areas;
+    int n = str.size(), sum = 0;
+    std::vector<int> downslope;
+    std::unordered_map<int, int> areas;
     for(int i = 0; i < n; ++i){
         switch(str.at(i)){
-            case 47: // up
-                if(1 <= depth){
-                    subArea += depth * 2 - 1;
-                    if(1 == depth){
-                        areas.push_back(subArea);
-                        subArea = 0;
-                    }
-                    --depth;
+            case 92: // DOWN
+                downslope.push_back(i);
+                break;
+
+            case 47: // UP
+                auto itr = std::find_if(areas.begin(), areas.end(), [downslope](auto elem){
+                    return *(downslope.end() - 1) < elem.first; 
+                });
+
+                if(areas.end() == itr){
+                    areas.insert(std::make_pair(i, sum));
+                    areas.erase(itr);
+                    sum = 0;
+                }else{
+                    sum += i - *(downslope.end() - 1);
                 }
                 break;
-    
-            case 92: // down
-                subArea += depth * 2 + 1;
-                ++depth;
-                break;
-   
-            case 95: // flat
-                subArea += depth * 2;
-                break;
         }
-
-        std::cout << subArea << std::endl;
     }
 
-    std::cout << "------" << std::endl;
-
-    std::cout << std::accumulate(areas.begin(), areas.end(), 0) / 2 << std::endl;
+    std::cout << std::accumulate(areas.begin(), areas.end(), 0, [](int init, auto elem){
+        return init + elem.second;
+    }) << std::endl;
     std::cout << areas.size() << " ";
-
-    for(auto itr = areas.begin(); areas.end() != itr; ++itr){
-        std::cout << *itr / 2;
-        if(areas.end() - 1 == itr){
-            std::cout << " ";
-        }else{
-            std::cout << std::endl;
-        }
-    }
+    print(areas);
 
     return 0;
 }
