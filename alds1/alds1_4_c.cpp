@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
+#include <set>
 
 class dictionary{
 private:
-    std::vector<std::string> words;
+    std::set<std::string> words;
 
 public:
     dictionary(){
@@ -12,11 +12,11 @@ public:
     }
 
     void insert(std::string readStr){
-        words.push_back(readStr);
+        words.insert(readStr);
     }
 
     bool isFound(std::string readStr){
-        auto itr = std::find(words.begin(), words.end(), readStr);
+        auto itr = words.find(readStr);
         if(words.end() != itr){
             std::cout << "yes" << std::endl;
             return true;
