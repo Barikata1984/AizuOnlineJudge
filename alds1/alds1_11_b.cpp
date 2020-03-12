@@ -33,20 +33,14 @@ int main(){
             std::cin >> k;
 
             g.at(i).push_back(k - 1); 
-//            g.at(k - 1).push_back(i); // for undirected graphs
+            g.at(k - 1).push_back(i); 
         }
     }
 
     std::vector<bool> seen(n, false);
     int time = 1;
-    for(int i = 0; i < n; ++i){
-        if(seen.at(i)){
-            continue;
-        }
-
-        dfs(seen, g, i, time, preOrder, postOrder);
-    }
-
+    
+    dfs(seen, g, 0, time, preOrder, postOrder); 
     for(int i= 0; i < n; ++i){
         std::cout << i + 1 << " " << preOrder.at(i) << " " << postOrder.at(i) << std::endl;
     }
