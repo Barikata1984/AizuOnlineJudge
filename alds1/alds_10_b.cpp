@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <vector>
 
+#define INF 1000000007
+
 void print(std::vector<int> vec){
     int n = vec.size();
     for(int i = 0; i < n; ++i){
@@ -24,14 +26,15 @@ int main(){
         std::cin >> row.at(i) >> col.at(i);
     }
 
-    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(n + 1, 0));
+    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(n + 1, INF));
     for(int l = n - 1; 0 <= l; --l){
         for(int r = 1; r <= n; ++r){
-            if(l < r){
-                if(l + 2 == r){
-                    dp.at(l).at(r) = row.at(l) * col.at(l) * col.at(r - 1);
-                }else{
-                    dp.at(l).at(r) = std::min(dp.at(l).at(r - 1) + row.at(l) * row.at(r - 1) * col.at(r - 1), dp.at(l + 1).at(r) + row.at(l) * col.at(l) * col.at(r - 1));
+            if(l + 2 == r){
+                dp.at(l).at(r) = row.at(l) * col.at(l) * col.at(r - 1);
+            }else if(l + 2 < r){
+                for(int m = l; m < r; ++m){
+                    std::cout << m << std::endl;
+                    dp.at(l).at(r) = std::min(dp.at(l).at(r), dp.at(l).at(m) + row.at(l) * col.at(m) * col.at(r) + dp.at(m + 1).at(r));
                 }
             }
         }
@@ -45,4 +48,3 @@ int main(){
 
     return 0;
 }
-
