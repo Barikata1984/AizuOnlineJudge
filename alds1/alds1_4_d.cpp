@@ -1,1 +1,20 @@
-#include <algorithm>#include <iostream>#include <vector>#include <cmath>int main(){    int n;    float k;    std::cin >> n >> k;    std::vector<long long> vec(n), cumSum(n);    std::cin >> vec.at(0);    cumSum.at(0) = vec.at(0);    for(int i = 1; i < n; ++i){        std::cin >> vec.at(i);        cumSum.at(i) = vec.at(i) + cumSum.at(i - 1);    }    long long i = std::ceil(*(cumSum.end() - 1) / k);    while(true){        std::vector<long long> buf(1, 0);        auto itr = std::upper_bound(cumSum.begin(), cumSum.end(), i);        while(cumSum.end() != itr){            buf.push_back(*(itr - 1) - *(buf.end() - 1));            itr = std::upper_bound(itr, cumSum.end(), *itr + i);        }        if(*(buf.end() - 1) <= i){            break;        }         ++i;    }    std::cout << i << std::endl;    return 0;}
+#include <iostream>
+#include <vector>
+
+int main(){
+    int n, k;
+    std::cin >> n >> k;
+
+    std::vector<int> w(n);
+    std::vector<int> cumSumW(n + 1, 0);
+    for(int i = 0; i < n; ++i){
+        std::cin >> w.at(i);
+        cumSumW.at(i + 1) = cumSumW.at(i) + w.at(i);
+    }
+
+    int unitW = cumSumW.at(n) / k;
+    while(){
+
+while(int i = unitW; i < cumSumW.at(n); i += unitW){
+            auto itr = std::lower_bound(std::begin(cumSumW), std::end(cumSumW), i);
+

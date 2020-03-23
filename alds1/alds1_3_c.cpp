@@ -2,6 +2,15 @@
 #include <iostream>
 #include <list>
 
+class list{
+private:
+    
+
+public:
+    
+
+}
+
 int main(){
     int n, val;
     std::cin >> n;
