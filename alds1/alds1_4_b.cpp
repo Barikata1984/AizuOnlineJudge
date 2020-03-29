@@ -1,25 +1,27 @@
 #include <iostream>
 #include <vector>
 
-bool binarySearch(std::vector<int> readVec, int key){
-    int n = readVec.size(), left = 0, right = n;
-    while(left < right){
-        int mid = (left + right) / 2;
-        if(key == readVec.at(mid)){
-            return mid;
-        }else if(key < readVec.at(mid)){
-            right = mid;
-        }else{
-            left = mid + 1;
-        }
+bool meguruSearch(const std::vector<int> &vec, const int v, int ng, int ok){
+    int mid = (ng + ok) / 2;
+    if(v == vec.at(mid)){
+//    std::cout << vec.at(mid) << std::endl;
+        return true;
+    }else if(1 == std::abs(ok - ng)){
+//    std::cout << vec.at(mid) << std::endl;
+        return false;
     }
 
-    return false;
+    if(v < vec.at(mid)){ // elements in the right part of vec including vec.at(mid) are set as okay in this code
+        return meguruSearch(vec, v, ng, mid);
+    }else{
+        return meguruSearch(vec, v, mid, ok);
+    }
 }
 
 int main(){
     int n;
     std::cin >> n;
+
     std::vector<int> s(n);
     for(int i = 0; i < n; ++i){
         std::cin >> s.at(i);
@@ -27,19 +29,23 @@ int main(){
 
     int q;
     std::cin >> q;
+
     std::vector<int> t(q);
     for(int i = 0; i < q; ++i){
         std::cin >> t.at(i);
     }
 
-    int ans = 0;
+    int count = 0;
     for(int i = 0; i < q; ++i){
-        if(binarySearch(s, t.at(i))){
-            ++ans;
+        if(meguruSearch(s, t.at(i), -1, s.size())){
+//            std::cout << t.at(i) << std::endl;
+            ++count;
         }
     }
 
-    std::cout << ans << std::endl;
+//    std::cout << "------" << std::endl;
+    
+    std::cout << count << std::endl;
 
     return 0;
 }
